@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["django-block-heroku-0ea39cb4833e.herokuapp.com", "localhost"]
+ALLOWED_HOSTS = ["django-block-heroku-0ea39cb4833e.herokuapp.com", "localhost", "8000-belanmihail-djangoblock-v4kb8gz7460.ws-eu104.gitpod.io"]
 
 
 # Application definition
@@ -46,8 +46,16 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'django.contrib.staticfiles',
     'cloudinary',
+    'django_summernote',
     'blog',
 ]
+
+# Installing django_summernote
+# pip3 install django_summernote
+# pip3 freeze --local > requirements.txt
+# add to app 'django_summernote',
+# in urls.py: path('summernote/',  include('django_summernote.urls')),
+# make migration
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
