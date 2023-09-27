@@ -19,4 +19,14 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('summernote/', include('django_summernote.urls')),
+
+    # add path to the blog urls
+    path("", include("blog.urls"), name="blog-urls"),
+
+    path("accounts/", include("allauth.urls")),
+#     when that's installed update your  requirements.txt file before we forget
+# now we need to add our all auth urls to our main  urls.py file so under the codestar directory
+# open our urls.py file and then we'll add a line  inside our url patterns list and this is very
+# similar to what we've already done before  we're going to provide the path to accounts
+# so this will be our url and then we're  going to include the all auth urls
 ]

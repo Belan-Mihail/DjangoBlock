@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["django-block-heroku-0ea39cb4833e.herokuapp.com", "localhost", "8000-belanmihail-djangoblock-v4kb8gz7460.ws-eu104.gitpod.io"]
+ALLOWED_HOSTS = ["django-block-heroku-0ea39cb4833e.herokuapp.com", "localhost", "8000-belanmihail-djangoblock-v4kb8gz7460.ws-eu104.gitpod.io", "8000-belanmihail-djangoblock-v4kb8gz7460.ws-eu105.gitpod.io",]
 
 
 # Application definition
@@ -48,7 +48,26 @@ INSTALLED_APPS = [
     'cloudinary',
     'django_summernote',
     'blog',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+#     and we can add in the all auth apps that we've  just installed so first of all we need to
+# add django.contrib.sites this is a built-in  django package and then our all auth packages
+# so all auth all auth dot account  and all auth dot social account
 ]
+
+SITE_ID = 1
+# we also need to add a site id of one this  is so that django can handle multiple sites
+# from one database now of course we only  have one site here using our one database
+# but we'll still need to explicitly tell django  the site number so site underscore id equals one
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+# and we'll add in the redirection  urls too so that after we've logged
+# in all logged out the site will  redirect us to the home page
+# so log in redirect url equals forward slash we'll  just copy that and then change login to log out
 
 # Installing django_summernote
 # pip3 install django_summernote
@@ -65,6 +84,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'codestar.urls'
@@ -87,6 +107,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'codestar.wsgi.application'
 
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

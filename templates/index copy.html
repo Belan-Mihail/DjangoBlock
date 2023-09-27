@@ -1,3 +1,38 @@
+<!-- {% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row"> -->
+
+        <!-- Blog Entries Column -->
+        <!-- <div class="col-12 mt-3 left">
+            <div class="row">
+            {% for post in post_list %} -->
+            <!-- We want our posts to display in rows of three.  
+After six posts, we'll paginate them. So we're  going to use the built-in loop counter to close  
+the existing row div, and add a new one  after three posts have been displayed.
+So {% if forloop.counter|divisibleby:3 %}
+then we're going to close the row div,  we're going to open a new row div.
+Just delete these, it's auto creating  them thanks to the autocomplete.
+And then, we can end {% endif %} here. -->
+<!-- So Django has a built-in  counter method on our for loop,  
+when it's evenly divisible by three, then we're  going to close our row class and add a new one. 
+And this will be pushed right down to the  
+end of our for loop so that we  don't close the row too early. -->
+            <!-- {% if forloop.counter|divisibleby:3 %}
+            </div>
+            <div class="row">
+            {% endif %}
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{%endblock%} -->
+
 {% extends "base.html" %}
 
 {% block content %}
@@ -31,12 +66,7 @@ So here we're inserting our  URL from our featured image. -->
                                     <p class="author">Author: {{ post.author }}</p>
                                 </div>
                             </div>
-                            <!-- The final thing that we need to do then is to  add the post detail URL into our index.html file,  
-so that users can click on the title  or the excerpt and read the post. -->
-<!-- So back in index.html, let's  replace our hashtag here  
-with a control statement. So that's the curly  braces and the percent sign, it's a URL which  
-will be the post detail URL we just created,  and that will accept post.slog as an argument. -->
-                            <a href="{% url 'post_detail' post.slug  %}" class="post-link">
+                            <a href="#" class="post-link">
                                 <h2 class="card-title">{{ post.title }}</h2>
                                 <p class="card-text">{{ post.excerpt }}</p>
                             </a>
