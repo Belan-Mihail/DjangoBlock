@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import generic, View
 from .models import Post
+from .forms import CommentForm
 
 class PostList(generic.ListView):
     model = Post
@@ -65,6 +66,71 @@ class PostDetail(View):
             {
                 "post": post,
                 "comments": comments,
-                "liked": liked
+                "liked": liked,
+                "comment_form": CommentForm(),
+#                 So with the form imported, we now  need to render it as part of our view.
+# To do this, we can simply add it to our context.
+# So just under liked in our render method,  we're going to supply a new key comment_form.  
+# And the value will just be the comment  form that we imported just now.
+            },
+        )
+
+
+
+# So what we're going to do is add a post method to  our PostDetail class back in our views.py file.
+    def post(self, request, slug, *args, **kwargs):
+        queryset = Post.objects.filter(status=1)
+        post = get_object_or_404(queryset, slug=slug)
+        comments = post.comments.filter(approved=True).order_by("-created_on")
+        liked = False
+        if post.likes.filter(id=self.request.user.id).exists():
+            liked = True
+
+        comment_form = CommentForm(data=request.POST)
+# When that's done, we need to get the  data from our form and assign it to a variable.
+# So I'm going to create a  new variable here called comment_form.
+# And that's the value is going to be set to:
+# comment_form = CommentForm(data=request.POST)
+# So this will get all of the data  that we posted from our form.
+
+        if comment_form.is_valid():
+            comment_form.instance.email = request.user.email
+            comment_form.instance.name = request.user.username
+            comment = comment_form.save(commit=False)
+            comment.post = post
+            comment.save()
+        else:
+            comment_form = CommentForm()
+# Now our form has a method called is  valid that returns a Boolean value  
+# regarding whether the form is valid, as in  all the fields have been completed or not. 
+# If it is valid, a comment has been  left and we want to process it. 
+# So let's get that: if comment_form.is_valid():
+# And what we're going to do is  set our email and our username  
+# automatically from the logged in user.
+# This is conveniently passed in as part  
+# of the request so that we can  get those details from there.
+# So we'll set the email to the request.user email.
+# We'll set the instance name  to the request username.
+# And then, we're going to call  the save method on our form  
+# but we're not actually going to  commit it to the database yet.
+# The reason is that we want to first assign a  post to it. So comment.post equals our post instance,  
+# so that we know which post a comment has  been left on and then we can save it.
+# We'll add an else clause here as  well, because if the form is not valid  
+# then we just want to return an  empty comment form instance. So:
+# else: comment_form = CommentForm()
+
+        return render(
+            request,
+            "post_detail.html",
+            {
+                "post": post,
+                "comments": comments,
+
+                "commented": True,
+#                 Okay, so now we just need  to adjust our render method.
+# And what we're going to do is  set a commented value to True.
+
+                "liked": liked,
+                "comment_form": CommentForm()
             },
         )

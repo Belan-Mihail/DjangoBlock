@@ -1,5 +1,10 @@
 {% extends 'base.html' %} {% block content %}
 
+{% load crispy_forms_tags %}
+<!-- First of all, we want to  load Crispy forms at the top. 
+So, inside our block content let's add these tags:
+{% load crispy_forms_tags %} -->
+
 <div class="masthead">
     <div class="container">
         <div class="row g-0">
@@ -76,6 +81,29 @@
         <div class="col-md-4 card mb-4  mt-3 ">
             <div class="card-body">
                 <!-- For later -->
+                {% if commented %}
+                <div class="alert alert-success" role="alert">
+                    Your comment is awaiting approval
+                </div>
+                {% else %}
+                {% if user.is_authenticated %}
+
+                <h3>Leave a comment:</h3>
+                <p>Posting as: {{ user.username }}</p>
+                <form method="post" style="margin-top: 1.3em;">
+                    {{ comment_form | crispy }}
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-signup btn-lg">Submit</button>
+                </form>
+                {% endif %}
+                {% endif %}
+                <!-- So we've added a standard if  block so that our comment box  
+only appears if our user is authenticated.
+Then, we create our form with the method of post,  
+we're rendering the form using the Crispy  filter so that it's formatted nicely.
+And then we’re also adding a CSRF token.  CSRF stands for Cross-Site Request Forgery,  
+and that's a way that attackers could try to find  vulnerabilities in your site. Django comes with a  
+protection against that, which is the CSRF token.  So you need to add this to any form you create.   -->
             </div>
         </div>
     </div>

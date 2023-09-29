@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'crispy_forms',
 
 #     and we can add in the all auth apps that we've  just installed so first of all we need to
 # add django.contrib.sites this is a built-in  django package and then our all auth packages
@@ -68,6 +69,11 @@ LOGOUT_REDIRECT_URL = '/'
 # and we'll add in the redirection  urls too so that after we've logged
 # in all logged out the site will  redirect us to the home page
 # so log in redirect url equals forward slash we'll  just copy that and then change login to log out
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+# We'll also tell Crispy to use  Bootstrap classes for formatting. 
+# So: CRISPY_TEMPLATE_PACK = 'bootstrap4' .
 
 # Installing django_summernote
 # pip3 install django_summernote
