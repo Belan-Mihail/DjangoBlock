@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, reverse
 from django.views import generic, View
+from django.http import HttpResponseRedirect
 from .models import Post
 from .forms import CommentForm
 
@@ -134,3 +135,26 @@ class PostDetail(View):
                 "comment_form": CommentForm()
             },
         )
+
+
+class PostLike(View):
+    def post(self, request, slug):
+        # So first, let's get the relevant  post using our get_object_or_404 method.
+        post = get_object_or_404(Post, slug=slug)
+
+        if post.likes.filter(id=request.user.id).exists():
+            post.likes.remove(request.user)
+        else:
+            post.likes.add(request.user)
+#         Then, we'll toggle the state.
+# We'll use an if statement to check if our post is  already liked and if it is we'll remove the like.
+# So remember how we checked if a  post was already liked before?
+# We used an if statement, we filtered  our post.likes on the user ID  
+# and if the user ID exists, then  it's been liked, so we can remove it.
+
+
+        return HttpResponseRedirect(reverse('post_detail', args=[slug]))
+#         Now we need to reload our post_detail  template so that we can see the results.
+# To do this, we'll use a new response  type called HttpResponseRedirect.  
+# So let's go up to the top of our views.py  file and import this from django.http.
+# So: from django.http import HttpResponseRedirect
