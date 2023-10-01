@@ -57,6 +57,36 @@
         </div>
     </nav>
 
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                {% for message in messages %}
+                <div class="alert {{ message.tags }} alert-dismissible fade show" id="msg" role="alert">
+                    {{ message | safe }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- So let's add our message display  now, back in our base.html file,  
+below the nav container. We're going to  add a new row, column, and an offset. -->
+<!-- And now inside our column, we can create a  for loop to iterate through our messages.
+Now messages are built into Django, as  we've said, so you don't need to add  
+anything to your view code here. We  can just say for messages in messages.
+And then we have our end for here.
+And inside, we're going to display  any of the messages that are there  
+in this messages list. So  we'll just create a new class.
+We're going to create it with alert.
+We're also going to use the  message tags as a class,  
+remember these are the ones that we  added to our settings.py file earlier.
+And all of the other classes here are all just  
+standard Bootstrap alert classes  and attributes that we need to give.
+Inside our div then, we can give our message  
+content and we'll use the safe filter here  to make sure that any HTML or scripts that  
+are provided are rendered safe before  they're actually viewed by the user.
+Then we'll just add a dismiss button. -->
+
     <main class="flex-shrink-0 main-bg">
         {% block content %}
         <!-- Content Goes here -->
@@ -71,6 +101,22 @@
             <i class="fab fa-instagram-square ms-3"></i>
             <i class="fab fa-youtube-square ms-3"></i></p>
     </footer>
+    <script>
+//         So far so good, but this doesn't  automatically dismiss itself.
+// So let's add the JavaScript to do that now. Alerts messages 
+setTimeout(function () {
+            let messages = document.getElementById('msg');
+            let alert = new bootstrap.Alert(messages);
+            alert.close();
+        }, 2500)
+// So we'll create our function here setTimeout.
+// We'll get the ID of our messages div.
+// So: document.getElementById('msg')
+// Then we'll assign a new Bootstrap alert to alert.
+// And we'll pass in the ID there that  we've just got, and then alert close.
+// And then we'll add 3000  milliseconds or three seconds,  
+// so this will close the alert after three seconds.
+    </script>
 </body>
 
 </html>

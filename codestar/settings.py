@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 
+from django.contrib.messages import constants as messages
 import os
 import dj_database_url
 if os.path.isfile('env.py'):
@@ -30,7 +31,7 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["django-block-heroku-0ea39cb4833e.herokuapp.com", "localhost", "8000-belanmihail-djangoblock-v4kb8gz7460.ws-eu104.gitpod.io", "8000-belanmihail-djangoblock-v4kb8gz7460.ws-eu105.gitpod.io",]
 
@@ -70,6 +71,19 @@ LOGOUT_REDIRECT_URL = '/'
 # in all logged out the site will  redirect us to the home page
 # so log in redirect url equals forward slash we'll  just copy that and then change login to log out
 
+MESSAGE_TAGS = {
+        messages.DEBUG: 'alert-info',
+        messages.INFO: 'alert-info',
+        messages.SUCCESS: 'alert-success',
+        messages.WARNING: 'alert-warning',
+        messages.ERROR: 'alert-danger',
+    }
+# And now further down in the  file, we can assign the tags.
+# What do we mean by this?
+# Well each message has a built-in tag to  indicate the category of the message -
+# is it a warning or an error? Is it indicating a  success or is it just giving info to the user?
+# We want to assign these tags  to different Bootstrap classes  
+# so that the color of our message will  change according to its category.
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # We'll also tell Crispy to use  Bootstrap classes for formatting. 
